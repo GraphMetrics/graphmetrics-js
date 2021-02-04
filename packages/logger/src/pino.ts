@@ -23,3 +23,7 @@ export class PinoAdapter implements Logger {
     this.logger.error(metadata, msg);
   }
 }
+
+export function fromPino(logger: PinoLogger): Logger {
+  return new PinoAdapter(logger);
+}

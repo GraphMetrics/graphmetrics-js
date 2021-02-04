@@ -1,3 +1,3 @@
-export type { Logger } from './interface';
-export { PinoAdapter } from './pino';
-export { WinstonAdapter } from './winston';
+export { Logger } from './interface';
+export { PinoAdapter, fromPino } from './pino';
+export { WinstonAdapter, fromWinston } from './winston';

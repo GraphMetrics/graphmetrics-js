@@ -23,3 +23,7 @@ export class WinstonAdapter implements Logger {
     this.logger.error(msg, metadata);
   }
 }
+
+export function fromWinston(logger: WinstonLogger): Logger {
+  return new WinstonAdapter(logger);
+}
