@@ -7,19 +7,19 @@ export class PinoAdapter implements Logger {
     this.logger = logger;
   }
 
-  public debug(msg: string, metadata: Record<string, unknown>): void {
+  public debug(msg: string, metadata: Record<string, unknown> = {}): void {
     this.logger.debug(metadata, msg);
   }
 
-  public info(msg: string, metadata: Record<string, unknown>): void {
+  public info(msg: string, metadata: Record<string, unknown> = {}): void {
     this.logger.info(metadata, msg);
   }
 
-  public warn(msg: string, metadata: Record<string, unknown>): void {
+  public warn(msg: string, metadata: Record<string, unknown> = {}): void {
     this.logger.warn(metadata, msg);
   }
 
-  public error(msg: string, metadata: Record<string, unknown>): void {
+  public error(msg: string, metadata: Record<string, unknown> = {}): void {
     this.logger.error(metadata, msg);
   }
 }
