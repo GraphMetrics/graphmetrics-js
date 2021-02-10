@@ -1,0 +1,41 @@
+{
+  "name": "@graphmetrics/apollo",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:graphmetrics/graphmetrics-js.git",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write .",
+    "lint": "eslint --cache --fix --ext .ts src/",
+    "check:lint": "eslint --ext .ts src/",
+    "check:typescript": "tsc",
+    "check:test": "jest --passWithNoTests",
+    "test": "jest"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@graphmetrics/core": "workspace:0.1.0",
+    "apollo-server-plugin-base": "0.10.4"
+  },
+  "peerDependencies": {
+    "graphql": "^14.0.0 | ^15.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "26.0.20",
+    "@types/node": "12.19.15",
+    "@typescript-eslint/eslint-plugin": "4.14.1",
+    "@typescript-eslint/parser": "4.14.1",
+    "eslint": "7.18.0",
+    "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-prettier": "3.3.1",
+    "graphql": "15.5.0",
+    "jest": "26.6.3",
+    "ts-jest": "26.4.4",
+    "ts-node": "9.1.1",
+    "typescript": "4.1.3"
+  }
+}
