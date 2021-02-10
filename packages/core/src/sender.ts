@@ -6,9 +6,9 @@ import got, { Got } from 'got';
 
 import { Configuration } from './configuration';
 import { UsageMetrics } from './internal/metrics';
-// @ts-ignore
-import { version } from '../package.json';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const PACKAGE = require('../package.json');
 const DEFAULT_ENDPOINT = 'api.graphmetrics.io';
 const DEFAULT_STOP_TIMEOUT = 10_000;
 
@@ -43,7 +43,7 @@ export class Sender {
       },
       headers: {
         'x-api-key': this.apiKey,
-        'user-agent': `sdk/js/${version}`,
+        'user-agent': `sdk/js/${PACKAGE.version}`,
       },
     });
 

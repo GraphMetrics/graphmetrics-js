@@ -1,10 +1,10 @@
 import { Logger } from '@graphmetrics/logger';
 import { Extractor } from '@graphmetrics/client';
 
-export interface Configuration {
+export interface Configuration<Context = any> {
   apiKey: string;
   serverVersion?: string;
-  clientExtractor?: Extractor;
+  clientExtractor?: Extractor<Context>;
   logger?: Logger;
   advanced?: AdvancedConfiguration;
 }

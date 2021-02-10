@@ -1,17 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { IncomingHttpHeaders } from 'http';
 
 import { Context } from './context';
+import { Details } from './interface';
 
 type Request = {
   headers: IncomingHttpHeaders;
 };
 
-export function apolloContext<BaseContext = any>(
+export function apolloContext<BaseContext>(
   ctx: BaseContext,
   req: Request,
 ): Context<BaseContext> {
+  return {
+    ...ctx,
+    client: apolloHeaders(req),
+  };
+}
+
+export function apolloHeaders(req: Request): Details {
   let name = '';
   const rawName = req.headers['apollographql-client-name'];
   if (rawName) {
@@ -33,10 +39,7 @@ export function apolloContext<BaseContext = any>(
   }
 
   return {
-    ...ctx,
-    client: {
-      name,
-      version,
-    },
+    name,
+    version,
   };
 }

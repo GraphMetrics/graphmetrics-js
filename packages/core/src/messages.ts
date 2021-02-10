@@ -4,7 +4,7 @@ export interface FieldMessage {
   typeName: string;
   fieldName: string;
   returnType: string;
-  error?: Error;
+  error?: Error | null;
   duration: number;
   client: Details;
 }
