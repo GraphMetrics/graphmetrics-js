@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '14.x'
@@ -15,6 +15,6 @@ jobs:
           version: 5.16.0
       - run: pnpm install -r --frozen-lockfile
       - run: pnpm run -r build
-      - run: pnpm -r publish
+      - run: pnpm -r publish --no-git-checks
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
