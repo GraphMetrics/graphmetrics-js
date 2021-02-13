@@ -18,9 +18,9 @@
     "dist"
   ],
   "dependencies": {
-    "@graphmetrics/sketches-js": "0.2.1",
-    "@graphmetrics/logger": "workspace:0.1.0",
     "@graphmetrics/client": "workspace:0.1.0",
+    "@graphmetrics/logger": "workspace:0.1.0",
+    "@graphmetrics/sketches-js": "0.2.1",
     "denque": "1.5.0",
     "got": "11.8.1"
   },
