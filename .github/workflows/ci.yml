@@ -18,7 +18,7 @@ jobs:
           node-version: '14.x'
       - uses: pnpm/action-setup@v1.2.1
         with:
-          version: 5.16.0
+          version: 5.17.1
       - run: pnpm install -r --frozen-lockfile
       - run: pnpm run -r check:lint
       - run: pnpm run -r check:typescript
