@@ -1,6 +1,6 @@
 {
   "name": "@graphmetrics/apollo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "git@github.com:graphmetrics/graphmetrics-js.git",
@@ -18,7 +18,7 @@
     "dist"
   ],
   "dependencies": {
-    "@graphmetrics/core": "workspace:0.1.0",
+    "@graphmetrics/core": "workspace:0.1.1",
     "apollo-server-plugin-base": "0.10.4"
   },
   "peerDependencies": {
