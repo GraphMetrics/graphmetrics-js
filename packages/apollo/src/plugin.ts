@@ -52,6 +52,13 @@ export function GraphMetrics<Context = any>(
         },
       };
     },
+    serverWillStart() {
+      return {
+        serverWillStop() {
+          return aggregator.stop();
+        },
+      };
+    },
     stop() {
       return aggregator.stop();
     },
