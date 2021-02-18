@@ -2,7 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/@graphmetrics/core)
 ![Continuous Integration](https://github.com/GraphMetrics/sketches-js/workflows/Continuous%20Integration/badge.svg)
-![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 This is the Javascript/TypeScript SDK for GraphMetrics.
 
