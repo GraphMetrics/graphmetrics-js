@@ -23,7 +23,9 @@ export function GraphMetrics<Context = any>(
         name: '',
         version: '',
       };
-      if (requestContext.request.http) {
+      if (config.clientExtractor) {
+        client = config.clientExtractor(requestContext.context);
+      } else if (requestContext.request.http) {
         client = extractor.apolloHeaders(requestContext.request.http as any);
       }
 
