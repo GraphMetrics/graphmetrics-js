@@ -1,6 +1,6 @@
 {
   "name": "@graphmetrics/apollo",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "git@github.com:graphmetrics/graphmetrics-js.git",
