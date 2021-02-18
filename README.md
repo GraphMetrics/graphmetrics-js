@@ -1,7 +1,7 @@
 # GraphMetrics
 
-![npm](https://img.shields.io/npm/v/@graphmetrics/core)
-![Continuous Integration](https://github.com/GraphMetrics/sketches-js/workflows/Continuous%20Integration/badge.svg)
+[![npm](https://img.shields.io/npm/v/@graphmetrics/core)](https://www.npmjs.com/package/@graphmetrics/core)
+[![Continuous Integration](https://github.com/GraphMetrics/graphmetrics-js/workflows/Continuous%20Integration/badge.svg)](https://github.com/GraphMetrics/graphmetrics-js/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 This is the Javascript/TypeScript SDK for GraphMetrics.
