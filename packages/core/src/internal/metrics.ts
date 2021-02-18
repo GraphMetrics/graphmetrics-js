@@ -15,7 +15,7 @@ class FieldMetric {
     this.histogram = new DDSketch({ relativeAccuracy: RELATIVE_ACCURACY });
   }
 
-  public toJson() {
+  public toJSON() {
     const indexes: number[] = [];
     const counts: number[] = [];
     for (const bin of this.histogram.bins()) {
@@ -49,6 +49,12 @@ class TypeMetric {
     this.fields.set(fieldName, fieldMetric);
     return fieldMetric;
   }
+
+  public toJSON() {
+    return {
+      fields: Object.fromEntries(this.fields),
+    };
+  }
 }
 
 interface MetricsContext {
@@ -72,6 +78,13 @@ class ContextualizedTypesMetrics {
     typeMetric = new TypeMetric();
     this.types.set(typeName, typeMetric);
     return typeMetric;
+  }
+
+  public toJSON() {
+    return {
+      context: this.context,
+      types: Object.fromEntries(this.types),
+    };
   }
 }
 

@@ -50,7 +50,7 @@ export class Sender {
     this.sendPromises = [];
 
     this.stopTimeout = config.advanced?.stopTimeout ?? DEFAULT_STOP_TIMEOUT;
-    this.logger = config.logger || defaultLogger(config.advanced?.debug);
+    this.logger = config.logger ?? defaultLogger(config.advanced?.debug);
   }
 
   public sendMetrics(metrics: UsageMetrics): void {
@@ -66,6 +66,7 @@ export class Sender {
       // We are aware this not super efficient in terms of
       // memory and blocking the main thread. We will move the
       // whole aggregation and sending to a worker thread at some point.
+      this.logger.debug('Sending data to GraphMetrics', { url });
       const output = JSON.stringify(data);
       const compressed = await gzip(Buffer.from(output));
 
@@ -83,6 +84,7 @@ export class Sender {
   }
 
   public async stop(): Promise<void> {
+    this.logger.debug('Stopping sender');
     try {
       await Promise.race([
         Promise.allSettled(this.sendPromises),

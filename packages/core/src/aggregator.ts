@@ -23,10 +23,10 @@ export class Aggregator {
     this.serverVersion = config.serverVersion ?? '';
 
     this.fieldQueue = new Denque<FieldMessage>();
-    this.flushTimeout = setTimeout(this.flush, FLUSH_INTERVAL);
+    this.flushTimeout = setTimeout(this.flush.bind(this), FLUSH_INTERVAL);
     this.sender = new Sender(config);
 
-    this.logger = config.logger || defaultLogger(config.advanced?.debug);
+    this.logger = config.logger ?? defaultLogger(config.advanced?.debug);
   }
 
   public pushField(msg: FieldMessage): void {
@@ -35,7 +35,7 @@ export class Aggregator {
     // because setImmediate comes after IO, which is what we want.
     // We should have one processField call per item in the queue.
     this.fieldQueue.push(msg);
-    setImmediate(this.processField);
+    setImmediate(this.processField.bind(this));
   }
 
   private processField(): void {
@@ -67,6 +67,7 @@ export class Aggregator {
   }
 
   public async stop(): Promise<void> {
+    this.logger.debug('Stopping aggregator');
     clearTimeout(this.flushTimeout);
     while (this.fieldQueue.length > 0) this.processField();
     this.flush();
