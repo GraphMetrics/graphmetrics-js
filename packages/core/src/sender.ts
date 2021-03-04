@@ -5,7 +5,7 @@ import { defaultLogger, Logger } from '@graphmetrics/logger';
 import got, { Got } from 'got';
 
 import { Configuration } from './configuration';
-import { UsageMetrics } from './internal/metrics';
+import { UsageMetrics } from './internal/models';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PACKAGE = require('../package.json');

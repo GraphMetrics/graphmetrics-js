@@ -2,7 +2,7 @@ import { Logger, defaultLogger } from '@graphmetrics/logger';
 import Denque from 'denque';
 
 import { Configuration } from './configuration';
-import { UsageMetrics } from './internal/metrics';
+import { UsageMetrics } from './internal/models';
 import { FieldMessage } from './messages';
 import { Sender } from './sender';
 
@@ -53,14 +53,14 @@ export class Aggregator {
         clientVersion: msg.client.version,
         serverVersion: this.serverVersion,
       });
-      const typeMetric = typesMetrics.findTypeMetric(msg.typeName);
-      const fieldMetric = typeMetric.findFieldMetric(msg.fieldName);
+      const typeMetrics = typesMetrics.findTypeMetrics(msg.typeName);
+      const fieldMetrics = typeMetrics.findFieldMetrics(msg.fieldName);
 
       // Insert message
-      fieldMetric.histogram.accept(msg.duration);
-      fieldMetric.errorCount += msg.error ? 1 : 0;
-      fieldMetric.count += 1;
-      fieldMetric.returnType = msg.returnType;
+      fieldMetrics.histogram.accept(msg.duration);
+      fieldMetrics.errorCount += msg.error ? 1 : 0;
+      fieldMetrics.count += 1;
+      fieldMetrics.returnType = msg.returnType;
     } catch (err) {
       this.logger.error('Unable to process field', { err });
     }
@@ -75,7 +75,7 @@ export class Aggregator {
   }
 
   protected flush(): void {
-    if (this.metrics.types.length === 0) return;
+    if (this.metrics.metrics.length === 0) return;
     const metrics = this.metrics;
     this.metrics = new UsageMetrics();
     metrics.timestamp = new Date(); // We prefer end time as the TS
