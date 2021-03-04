@@ -138,7 +138,9 @@ export class UsageMetrics {
     this.metrics = [];
   }
 
-  public findTypesMetrics(context: MetricsContext): ContextualizedUsageMetrics {
+  public findContextMetrics(
+    context: MetricsContext,
+  ): ContextualizedUsageMetrics {
     let typesMetrics = this.metrics.find(
       (t) =>
         t.context.clientName === context.clientName &&

@@ -2,17 +2,20 @@ import { Logger, defaultLogger } from '@graphmetrics/logger';
 import Denque from 'denque';
 
 import { Configuration } from './configuration';
-import { UsageMetrics } from './internal/models';
-import { FieldMessage } from './messages';
+import { UsageDefinitions, UsageMetrics } from './internal/models';
+import { FieldMessage, OperationMessage } from './messages';
 import { Sender } from './sender';
 
 const FLUSH_INTERVAL = 1 * 60 * 1000;
 
 export class Aggregator {
   protected metrics: UsageMetrics;
+  protected definitions: UsageDefinitions;
+  protected knownOperations: Map<string, boolean>;
   protected serverVersion: string;
 
   protected fieldQueue: Denque<FieldMessage>;
+  protected operationQueue: Denque<OperationMessage>;
   protected flushTimeout: NodeJS.Timeout;
   protected sender: Sender;
 
@@ -20,9 +23,12 @@ export class Aggregator {
 
   constructor(config: Configuration) {
     this.metrics = new UsageMetrics();
+    this.definitions = new UsageDefinitions();
+    this.knownOperations = new Map<string, boolean>();
     this.serverVersion = config.serverVersion ?? '';
 
     this.fieldQueue = new Denque<FieldMessage>();
+    this.operationQueue = new Denque<OperationMessage>();
     this.flushTimeout = setTimeout(this.flush.bind(this), FLUSH_INTERVAL);
     this.sender = new Sender(config);
 
@@ -38,6 +44,11 @@ export class Aggregator {
     setImmediate(this.processField.bind(this));
   }
 
+  public pushOperation(msg: OperationMessage): void {
+    this.operationQueue.push(msg);
+    setImmediate(this.processOperation.bind(this));
+  }
+
   private processField(): void {
     try {
       // Take a message
@@ -47,13 +58,13 @@ export class Aggregator {
         return;
       }
 
-      // Find field metric
-      const typesMetrics = this.metrics.findTypesMetrics({
+      // Find field metrics
+      const metrics = this.metrics.findContextMetrics({
         clientName: msg.client.name,
         clientVersion: msg.client.version,
         serverVersion: this.serverVersion,
       });
-      const typeMetrics = typesMetrics.findTypeMetrics(msg.typeName);
+      const typeMetrics = metrics.findTypeMetrics(msg.typeName);
       const fieldMetrics = typeMetrics.findFieldMetrics(msg.fieldName);
 
       // Insert message
@@ -66,6 +77,43 @@ export class Aggregator {
     }
   }
 
+  private processOperation(): void {
+    try {
+      // Take a message
+      const msg = this.operationQueue.shift();
+      if (msg === undefined) {
+        this.logger.warn('Tried to process operation with empty queue');
+        return;
+      }
+
+      // Find operation metrics
+      const metrics = this.metrics.findContextMetrics({
+        clientName: msg.client.name,
+        clientVersion: msg.client.version,
+        serverVersion: this.serverVersion,
+      });
+      const operationMetrics = metrics.findOperationMetrics(msg.hash);
+
+      // Insert message
+      operationMetrics.histogram.accept(msg.duration);
+      operationMetrics.errorCount += msg.hasErrors ? 1 : 0;
+      operationMetrics.count += 1;
+
+      // Insert definition
+      if (!this.knownOperations.get(msg.hash)) {
+        this.definitions.operations.push({
+          name: msg.name,
+          type: msg.type,
+          hash: msg.hash,
+          signature: msg.signature,
+        });
+        this.knownOperations.set(msg.hash, true);
+      }
+    } catch (err) {
+      this.logger.error('Unable to process operation', { err });
+    }
+  }
+
   public async stop(): Promise<void> {
     this.logger.debug('Stopping aggregator');
     clearTimeout(this.flushTimeout);
@@ -75,10 +123,18 @@ export class Aggregator {
   }
 
   protected flush(): void {
-    if (this.metrics.metrics.length === 0) return;
-    const metrics = this.metrics;
-    this.metrics = new UsageMetrics();
-    metrics.timestamp = new Date(); // We prefer end time as the TS
-    this.sender.sendMetrics(metrics);
+    const now = new Date(); // We prefer end time as the TS
+    if (this.metrics.metrics.length > 0) {
+      const metrics = this.metrics;
+      this.metrics = new UsageMetrics();
+      metrics.timestamp = now;
+      this.sender.sendMetrics(metrics);
+    }
+    if (this.definitions.operations.length > 0) {
+      const definitions = this.definitions;
+      this.definitions = new UsageDefinitions();
+      definitions.timestamp = now;
+      this.sender.sendDefinitions(definitions);
+    }
   }
 }
