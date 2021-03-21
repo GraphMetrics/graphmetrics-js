@@ -52,7 +52,7 @@ The SDK needs a few elements to be properly configured.
 - apiKey: Your environment api key
 - serverVersion: (Optional) The version of the server, necessary to catch regressions between releases
 - clientExtractor: (Optional) Function that retrieves the client details from the context, necessary to differentiate queries coming from different clients
-- logger: (Optional) A structure logger that respects the interface, otherwise `console.log` is used. Adapters are provided for popular loggers (import `logger` from the middleware package).
+- logger: (Optional) A structure logger that respects the interface, otherwise `console.log` is used. Adapters are provided for popular loggers (import `logging` from the middleware package).
 
 ### Client extractor
 

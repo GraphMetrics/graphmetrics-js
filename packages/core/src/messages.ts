@@ -8,3 +8,13 @@ export interface FieldMessage {
   duration: number;
   client: Details;
 }
+
+export interface OperationMessage {
+  name: string;
+  type: string;
+  hash: string;
+  signature: string;
+  hasErrors: boolean;
+  duration: number;
+  client: Details;
+}

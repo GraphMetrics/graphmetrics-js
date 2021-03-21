@@ -5,7 +5,7 @@ import { defaultLogger, Logger } from '@graphmetrics/logger';
 import got, { Got } from 'got';
 
 import { Configuration } from './configuration';
-import { UsageMetrics } from './internal/metrics';
+import { UsageDefinitions, UsageMetrics } from './internal/models';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PACKAGE = require('../package.json');
@@ -20,19 +20,17 @@ const rejectAfter = (ms: number) =>
   });
 
 export class Sender {
-  protected url: string;
   protected apiKey: string;
   protected client: Got;
-
   protected sendPromises: Promise<void>[];
 
+  protected metricsUrl: string;
+  protected definitionsUrl: string;
   protected stopTimeout: number;
+
   protected logger: Logger;
 
   constructor(config: Configuration) {
-    this.url = `${config.advanced?.http ? 'http' : 'https'}://${
-      config.advanced?.endpoint ?? DEFAULT_ENDPOINT
-    }/reporting/metrics`;
     this.apiKey = config.apiKey;
     if (!this.apiKey) {
       throw new Error('Must provide an Api Key for GraphMetrics');
@@ -46,22 +44,35 @@ export class Sender {
         'user-agent': `sdk/js/${PACKAGE.version}`,
       },
     });
-
     this.sendPromises = [];
 
+    const baseUrl = `${config.advanced?.http ? 'http' : 'https'}://${
+      config.advanced?.endpoint ?? DEFAULT_ENDPOINT
+    }/reporting`;
+    this.metricsUrl = `${baseUrl}/metrics`;
+    this.definitionsUrl = `${baseUrl}/definitions`;
     this.stopTimeout = config.advanced?.stopTimeout ?? DEFAULT_STOP_TIMEOUT;
+
     this.logger = config.logger ?? defaultLogger(config.advanced?.debug);
   }
 
   public sendMetrics(metrics: UsageMetrics): void {
-    const promise = this.send(metrics, this.url);
+    const promise = this.send(metrics, this.metricsUrl);
     const index = this.sendPromises.push(promise) - 1;
     promise.finally(() => {
       this.sendPromises.splice(index, 1);
     });
   }
 
-  private async send(data: UsageMetrics, url: string) {
+  public sendDefinitions(definitions: UsageDefinitions): void {
+    const promise = this.send(definitions, this.definitionsUrl);
+    const index = this.sendPromises.push(promise) - 1;
+    promise.finally(() => {
+      this.sendPromises.splice(index, 1);
+    });
+  }
+
+  private async send(data: unknown, url: string) {
     try {
       // We are aware this not super efficient in terms of
       // memory and blocking the main thread. We will move the
