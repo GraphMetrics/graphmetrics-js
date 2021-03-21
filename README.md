@@ -6,6 +6,10 @@
 
 This is the Javascript/TypeScript SDK for GraphMetrics.
 
+## Installation
+
+- Apollo: `yarn add @graphmetrics/apollo` / `npm install @graphmetrics/apollo --save`
+
 ## Usage
 
 We provide middlewares that are easily to plug in your server. If your server is not currently supported, please open an issue so we can fix that.
@@ -27,7 +31,7 @@ const apollo = new ApolloServer({
 
 #### ⚠️ Stopping of server
 
-By default Apollo Server handles signals to properly shutdown, but we found that [it is not well implemented](https://github.com/apollographql/apollo-server/issues/4931). To avoid losing the last datapoint when doing a server rollout, we highly suggest to do the following:
+By default Apollo Server handles signals to properly shutdown, but we found that [it is not well implemented](https://github.com/apollographql/apollo-server/issues/4931) versions before `2.21.2`. To avoid losing the last datapoint when doing a server rollout, we highly suggest to do the following:
 
 ```typescript
 const apollo = new ApolloServer({
