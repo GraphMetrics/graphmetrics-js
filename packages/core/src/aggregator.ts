@@ -29,7 +29,7 @@ export class Aggregator {
 
     this.fieldQueue = new Denque<FieldMessage>();
     this.operationQueue = new Denque<OperationMessage>();
-    this.flushTimeout = setTimeout(this.flush.bind(this), FLUSH_INTERVAL);
+    this.flushTimeout = setInterval(this.flush.bind(this), FLUSH_INTERVAL);
     this.sender = new Sender(config);
 
     this.logger = config.logger ?? defaultLogger(config.advanced?.debug);
@@ -116,7 +116,7 @@ export class Aggregator {
 
   public async stop(): Promise<void> {
     this.logger.debug('Stopping aggregator');
-    clearTimeout(this.flushTimeout);
+    clearInterval(this.flushTimeout);
     while (this.fieldQueue.length > 0) this.processField();
     this.flush();
     await this.sender.stop();
