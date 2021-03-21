@@ -90,7 +90,6 @@ export class Sender {
       });
     } catch (err) {
       this.logger.error('Unable to send data to GraphMetrics', { err });
-      throw err;
     }
   }
 
