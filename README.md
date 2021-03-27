@@ -39,7 +39,7 @@ const apollo = new ApolloServer({
 
 #### ⚠️ Stopping of server
 
-By default Apollo Server handles signals to properly shutdown, but we found that [it is not well implemented](https://github.com/apollographql/apollo-server/issues/4931) versions before `2.21.2`. To avoid losing the last datapoint when doing a server rollout, we highly suggest to do the following:
+By default Apollo Server handles signals to properly shutdown, but we found that [it is not well implemented](https://github.com/apollographql/apollo-server/issues/4931) for versions before `2.21.2`. To **avoid losing the last datapoint** when doing a server rollout, we highly suggest to do the following:
 
 ```typescript
 const apollo = new ApolloServer({
@@ -69,9 +69,9 @@ The SDK needs a few elements to be properly configured.
 ### Client extractor
 
 - Client extractor fetches the client details from the context
-- Override the function to set custome name and version
+- Override the function to set a custom name and version
 - Default behaviour differs per integration:
     - `Apollo`: Uses the [Apollo client](https://www.apollographql.com/docs/studio/client-awareness/#using-apollo-server-and-apollo-client) default headers
-    - `Others`: No details are fetched. 
+    - `Others`: No details are fetched 
     
 Please let us know if you would like to see other clients supported by default
