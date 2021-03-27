@@ -16,15 +16,23 @@ We provide middlewares that are easily to plug in your server. If your server is
 
 ### Apollo
 
+**[See full example](https://github.com/GraphMetrics/graphmetrics-js/tree/main/example)**
+
 ```typescript
-import { GraphMetrics } from '@graphmetrics/apollo';
+import { GraphMetrics, logging } from '@graphmetrics/apollo';
+import { createContext, Context } from './context';
 
 const metrics = GraphMetrics<Context>({
-  // SEE CONFIGURATION SECTION
+  // SEE CONFIGURATION SECTION FOR DETAILS
+  apiKey: 'some_key',
+  serverVersion: '0.1.0',
+  logger: logging.fromWinston(logger),
+  // clientExtractor: (ctx) => { ... }
 });
 
 const apollo = new ApolloServer({
   ...
+  context: createContext,
   plugins: [metrics],
 });
 ```
@@ -53,11 +61,17 @@ signals.forEach((signal) => {
 
 The SDK needs a few elements to be properly configured.
 
-- apiKey: Your environment api key
-- serverVersion: (Optional) The version of the server, necessary to catch regressions between releases
-- clientExtractor: (Optional) Function that retrieves the client details from the context, necessary to differentiate queries coming from different clients
-- logger: (Optional) A structure logger that respects the interface, otherwise `console.log` is used. Adapters are provided for popular loggers (import `logging` from the middleware package).
+- `apiKey`: Environment api key
+- `serverVersion`: *(Optional)* Version of the server (catch regressions between releases)
+- `clientExtractor`: *(Optional)* Function that retrieves the client details from the context (differentiate queries coming from different clients)
+- `logger`: *(Optional)* Structured logger, `console.log` is used if not provided. Adapters are provided for popular loggers in `logging`.
 
 ### Client extractor
 
-The client extractor fetches the client details from the context. By default, no details are fetched. We provide helper functions for the Apollo client, please let us know if you would like to see other clients supported. Note that by default the Apollo middleware will check for apollo client headers.
+- Client extractor fetches the client details from the context
+- Override the function to set custome name and version
+- Default behaviour differs per integration:
+    - `Apollo`: Uses the [Apollo client](https://www.apollographql.com/docs/studio/client-awareness/#using-apollo-server-and-apollo-client) default headers
+    - `Others`: No details are fetched. 
+    
+Please let us know if you would like to see other clients supported by default
