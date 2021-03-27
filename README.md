@@ -75,3 +75,7 @@ The SDK needs a few elements to be properly configured.
     - `Others`: No details are fetched 
     
 Please let us know if you would like to see other clients supported by default
+
+## Incompatibilities
+
+- `Jest`: Since we use a `setInterval` internally, jest will complain that tests don't finish cleanly. We suggest **not instantiating the plugin** during tests.
