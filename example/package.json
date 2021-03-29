@@ -11,7 +11,7 @@
     "start": "ts-node --transpile-only src/server"
   },
   "dependencies": {
-    "@graphmetrics/apollo": "0.2.2",
+    "@graphmetrics/apollo": "0.2.3",
     "apollo-server-express": "2.21.2",
     "graphql": "15.5.0",
     "graphql-tag": "2.11.0",

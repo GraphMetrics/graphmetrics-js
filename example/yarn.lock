@@ -85,25 +85,25 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@graphmetrics/apollo@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@graphmetrics/apollo/-/apollo-0.2.2.tgz#47a28f573a285831a63f29ea30ed0bfcca686ce5"
-  integrity sha512-XQJWiQINPr2q9+ivWS1GPjht7lqzu9JEhYtLPkMzsVtHPnCQ/mrpdlFEZwq0wc15Dt9BiHNa9R4hjJPqCnXdJA==
+"@graphmetrics/apollo@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@graphmetrics/apollo/-/apollo-0.2.3.tgz#d41eb0b7e8f1dd864f22fbdf6bd20f9924b6cb9e"
+  integrity sha512-TKAzAQIhzml+tN8UcYBkQqpoG8QCiPrWDXUhPkH3hi9hw3Z1ytPGz9Wk24FGSSJbXan4gMFxVd6kRkOa1BwsMA==
   dependencies:
-    "@graphmetrics/core" "0.2.2"
+    "@graphmetrics/core" "0.2.3"
     apollo-server-plugin-base "0.10.4"
 
-"@graphmetrics/client@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@graphmetrics/client/-/client-0.1.0.tgz#d9422ea35b7fc8ec88b4be2c4cc0c8de5c6ff065"
-  integrity sha512-BHlSTNlYrb8YMCiTXunhsydLOe7LRupIJdRE+9gIvQSC2nyXvUV3CGWvb3G7d99Qk4tVMTBdVgvz37aBiWMaHg==
+"@graphmetrics/client@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@graphmetrics/client/-/client-0.1.1.tgz#88ceab452d5e7fe680ef059d872db37dc06df86f"
+  integrity sha512-rZMIQ0x1GRfVAmniwufgeBzb7hvpneHuWFrl7q0lD7p+jcxu8hsh3wSpFThgNdhy7dAouILeN4mzfXQJtrkmgA==
 
-"@graphmetrics/core@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@graphmetrics/core/-/core-0.2.2.tgz#ea782bec188c3d6844df1978d74e57c4bc2d8cbc"
-  integrity sha512-TwSBea614/0468Yg9sJVnckppHI4s2ki05DImgOb5PlSyewcXt4A10ojvDd+4R3DSWajeE27kCytTI58WP4HMQ==
+"@graphmetrics/core@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@graphmetrics/core/-/core-0.2.3.tgz#d9f42d5baf24a6f73495d9361a2b6020878dfc69"
+  integrity sha512-+Kp2X7+cSQ/1fj3ShxpB/jl1wojvPn9ryjRUkDFw5BvDnNVhA5l7UV4ew2bHUCUGcSgusT89P0uWeJ/DkSZeKQ==
   dependencies:
-    "@graphmetrics/client" "0.1.0"
+    "@graphmetrics/client" "0.1.1"
     "@graphmetrics/logger" "0.1.0"
     "@graphmetrics/sketches-js" "0.3.0"
     denque "1.5.0"
